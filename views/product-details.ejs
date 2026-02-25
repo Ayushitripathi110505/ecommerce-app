@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= product.name %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 80%;
+      margin: 50px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 40px;
+    }
+
+    .product-image {
+      flex: 1;
+    }
+
+    .product-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product-info {
+      flex: 1;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    .price {
+      color: green;
+      font-size: 24px;
+      margin: 15px 0;
+    }
+
+    .description {
+      margin: 20px 0;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      background: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .btn:hover {
+      background: #0056b3;
+    }
+
+    .back {
+      background: gray;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="product-image">
+      <img src="<%= product.image %>" alt="<%= product.name %>">
+    </div>
+
+    <div class="product-info">
+      <h1><%= product.name %></h1>
+
+      <div class="price">₹ <%= product.price %></div>
+
+      <div class="description">
+        <%= product.description %>
+      </div>
+
+      <a href="#" class="btn">Add to Cart</a>
+      <a href="/user/dashboard" class="btn back">Back</a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

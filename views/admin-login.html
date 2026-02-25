@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Admin Login</h2>
+    <form action="/auth/login" method="POST">
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="hidden" name="role" value="admin">
+      <button type="submit">Login</button>
+    </form>
+    <p style="margin-top:10px;">
+      New admin? <a href="/auth/register?role=admin">Create an account</a>
+    </p>
+  </div>
+</body>
+</html>

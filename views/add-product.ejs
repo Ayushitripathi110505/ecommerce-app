@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Product</title>
+ <style>
+    /* Body with blue gradient */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 50px 20px;
+}
+
+/* Form card */
+.form-container {
+  background-color: #ffffff;
+  padding: 35px 40px;
+  border-radius: 15px;
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+/* Full width fields */
+.full-width {
+  width: 100%;
+}
+
+/* Two fields in one row */
+.form-row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Inputs and textarea */
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="file"] {
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+  width: 100%;
+}
+
+input:focus,
+textarea:focus,
+input[type="file"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  outline: none;
+}
+
+/* Buttons container */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Add Product button */
+button {
+  flex: 1;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Back to Dashboard link as button */
+.back-btn {
+  flex: 1;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  background-color: #ccc;
+  border-radius: 10px;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #999;
+  color: #fff;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+ </style>
+</head>
+<body>
+  <div class="form-container">
+    <h1>Add New Product</h1>
+    <form action="/admin/add-product" method="POST" enctype="multipart/form-data">
+      <!-- Name -->
+      <div class="form-group full-width">
+        <label>Name:</label>
+        <input type="text" name="name" required>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group full-width">
+        <label>Description:</label>
+        <textarea name="description" rows="4" required></textarea>
+      </div>
+
+      <!-- Price & Category in one row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Price (₹):</label>
+          <input type="number" name="price" required>
+        </div>
+        <div class="form-group">
+          <label>Category:</label>
+          <input type="text" name="category">
+        </div>
+      </div>
+
+      <!-- Stock & Image in one row -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Stock:</label>
+          <input type="number" name="stock">
+        </div>
+        <div class="form-group">
+          <label>Product Image:</label>
+          <input type="file" name="image" accept="image/*">
+        </div>
+      </div>
+
+      <!-- Buttons at bottom -->
+      <div class="form-buttons">
+        <button type="submit">Add Product</button>
+        <a href="/admin/dashboard" class="back-btn">Back to Dashboard</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

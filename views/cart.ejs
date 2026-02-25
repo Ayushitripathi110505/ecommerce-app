@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Cart</title>
+<style>
+body { 
+    font-family: Arial; 
+    padding: 30px; 
+    background: #f4f6f9;
+}
+
+h2 {
+    text-align: center;
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+th, td { 
+    padding: 12px; 
+    border-bottom: 1px solid #ddd; 
+}
+
+th {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+}
+
+td {
+    text-align: center;
+}
+
+td:first-child {
+    text-align: left;   /* Product name left aligned */
+}
+
+.btn { 
+    background: red; 
+    color: white; 
+    padding: 6px 12px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: darkred;
+}
+
+h3 {
+    text-align: right;
+    margin-top: 20px;
+}
+
+a {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    background: #3498db;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+}
+input[type="text"]{
+    font-size: 24px;
+}
+</style>
+</head>
+<body>
+
+<h2>Your Cart</h2>
+
+<% if (!cart || cart.items.length === 0) { %>
+    <p>Your cart is empty.</p>
+<% } else { %>
+
+<table>
+<tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Total</th>
+    <th>Stock</th>
+    <th>Remove</th>
+</tr>
+
+<% let grandTotal = 0; %>
+
+<% cart.items.forEach(item => { %>
+<tr>
+    <td><%= item.product.name %></td>
+    <td>₹<%= item.product.price %></td>
+    <td>
+ 
+  <form action="/user/update-cart/<%= item.product._id %>" method="POST" style="display:inline;">
+    <input type="number" name="quantity" value="<%= item.quantity %>" min="1" max="<%= item.product.stock %>" style="width:50px;">
+    <button class="btn" type="submit">Update</button>
+  </form>
+
+</td>
+    <td>₹<%= item.product.price * item.quantity %></td>
+    <td><%= item.product.stock %></td> <!-- show stock -->
+    <td>
+        <form action="/remove-from-cart/<%= item.product._id %>" method="POST">
+            <button class="btn">Remove</button>
+        </form>
+    </td>
+</tr>
+
+<% grandTotal += item.product.price * item.quantity; %>
+<% }) %>
+
+</table>
+
+<h3>Total: ₹<%= grandTotal %></h3>
+
+<!-- ✅ Add Checkout Form Here -->
+<form action="/user/checkout" method="POST">
+    <label for="address">Shipping Address:</label><br>
+    <input type="text" id="address" name="address" placeholder="Enter your address" required style="width: 50%; padding:5px; margin-top:5px;"><br><br>
+
+    <button type="submit" class="btn">Place Order</button>
+</form>
+
+<% } %>
+
+</body>
+</html>

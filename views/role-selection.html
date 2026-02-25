@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Select Role</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Select your role</h2>
+    <form action="/role/select" method="POST">
+      <label>
+        <input type="radio" name="role" value="user" required> User
+      </label><br><br>
+
+      <label>
+        <input type="radio" name="role" value="admin"> Admin
+      </label><br>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+</body>
+</html>

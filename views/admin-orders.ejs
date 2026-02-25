@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>All Orders</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>User</th>
+      <th>Total</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders.forEach(order => { %>
+      <tr>
+        <td><%= order._id %></td>
+        <td><%= order.user.name %></td>
+        <td>₹<%= order.totalAmount %></td>
+        <td><%= order.status %></td>
+        <td>
+          <form action="/admin/orders/<%= order._id %>/status" method="POST">
+            <select name="status">
+              <option value="Pending" <%= order.status==="Pending"?"selected":"" %>>Pending</option>
+              <option value="Confirmed" <%= order.status==="Confirmed"?"selected":"" %>>Confirmed</option>
+              <option value="Shipped" <%= order.status==="Shipped"?"selected":"" %>>Shipped</option>
+              <option value="Delivered" <%= order.status==="Delivered"?"selected":"" %>>Delivered</option>
+              <option value="Cancelled" <%= order.status==="Cancelled"?"selected":"" %>>Cancelled</option>
+            </select>
+            <button type="submit">Update</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+
+</body>
+</html>
+

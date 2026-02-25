@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ 
+
+<h2>My Orders</h2>
+
+<% if (!orders || orders.length === 0) { %>
+  <p>You have not placed any orders yet.</p>
+<% } else { %>
+  <table style="width:100%; border-collapse: collapse;">
+    <thead>
+      <tr style="border-bottom:1px solid #ccc; text-align:left;">
+        <th>Order ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Items</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% orders.forEach(order => { %>
+        <tr style="border-bottom:1px solid #eee;">
+          <td><%= order._id %></td>
+          <td><%= order.createdAt.toDateString() %></td>
+          <td>
+            <%= order.status %>
+            <% if(order.status === "Pending") { %> ⏳ 
+            <% } else if(order.status === "Confirmed") { %> ✅ 
+            <% } else if(order.status === "Shipped") { %> 🚚 
+            <% } else if(order.status === "Delivered") { %> 🎉 
+            <% } else if(order.status === "Cancelled") { %> ❌ <% } %>
+          </td>
+          <td>₹<%= order.items.reduce((sum, i) => sum + i.price * i.quantity, 0) %></td>
+          <td>
+            <ul style="padding-left:15px; margin:0;">
+              <% order.items.forEach(item => { %>
+                <li>
+                  <strong><%= item.product.name %></strong>
+                  - Qty: <%= item.quantity %>
+                  - ₹<%= item.price %>
+                </li>
+              <% }) %>
+            </ul>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+<% } %>
+
+<br>
+<a href="/user/dashboard" style="display:inline-block; margin-top:20px;">← Back to Dashboard</a>
+
+
+
+</body>
+</html>

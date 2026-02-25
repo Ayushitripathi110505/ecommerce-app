@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+        background-color: #f0f4f8;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    body.dark-mode { background-color: #0d1b2a; color: #e0e0e0; }
+
+    /* Header */
+    .header {
+        width: 100%;
+        min-height: 220px;
+        background: linear-gradient(135deg, #0d1b2a, #1b365d);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    .top-right {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .top-right button {
+        padding: 8px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s, color 0.3s, transform 0.2s;
+    }
+    .top-right button:hover { transform: scale(1.05); }
+
+    .dark-mode-btn { background-color: #f0f4f8; color: #0d1b2a; }
+    body.dark-mode .dark-mode-btn { background-color: #1b365d; color: #f0f4f8; }
+
+    .logout-btn { background-color: #ff4e4e; color: #fff; }
+    .logout-btn:hover { background-color: #e03a3a; }
+
+    /* Typewriter */
+    .typewriter h1 {
+        overflow: hidden;
+        border-right: .15em solid white;
+        white-space: nowrap;
+        animation: typing 3s steps(20, end), blink-caret 0.75s step-end infinite;
+        font-size: 2.5em;
+        margin: 0;
+        letter-spacing: 2px;
+    }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink-caret { 50% { border-color: transparent } }
+
+    h2 { margin-top: 10px; font-size: 1.5em; font-weight: 500; color: #ffd700; }
+    body.dark-mode .subheading { color: #ffcc00; }
+
+    /* Navigation */
+    .navBar {
+        margin-top: 20px;
+        display: flex;
+        gap: 25px;
+    }
+    .navBar a {
+        font-size: 1.4rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: background 0.3s, transform 0.2s;
+    }
+    .navBar a:hover { background-color: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
+
+    /* Products grid */
+    .content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        padding: 30px;
+    }
+
+    .Product {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: left;
+        min-height: 300px;
+    }
+    .Product:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.25); }
+    .Product img { width: 100%; height: 250px; object-fit: cover; }
+    .product-info { padding: 15px; }
+    .product-info h3 { margin: 0 0 10px; }
+    .product-info p { margin: 5px 0; color: #555; }
+    .price { font-weight: bold; color: #e63946; font-size: 18px; margin-top: 8px; }
+    .btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 8px 15px;
+        background-color: #0077b6;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+    .btn:hover { background-color: #023e8a; }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="top-right">
+        <button class="dark-mode-btn" onclick="toggleDarkMode()">Toggle Mode</button>
+        <button class="logout-btn" onclick="location.href='/auth/logout'">Logout</button>
+    </div>
+
+    <div class="typewriter">
+        <h1>Welcome Admin</h1>
+        <h2>Manage Products</h2>
+    </div>
+
+    <div class="navBar">
+        <a href="/admin/dashboard">View</a>
+        <a href="/admin/add-product">Add New Product</a>
+        <a href="/admin/delete-products">Delete</a>
+        <a href="/admin/edit-products">Edit</a> 
+        <a href="/admin/orders">Update Status</a> 
+    </div>
+</div>
+
+<div class="content">
+    <% products.forEach(product => { %>
+        <div class="Product">
+            <img src="<%= product.image %>" alt="<%= product.name %>">
+            <div class="product-info">
+                <h3><%= product.name %></h3>
+                <p>Type: <%= product.category %></p>
+                <p class="price">₹<%= product.price %></p>
+                <a href="/admin/product/<%= product._id %>" class="btn">More Details</a>
+            </div>
+        </div>
+    <% }) %>
+</div>
+
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- views/orders.ejs -->
+<h2>My Orders</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Date</th>
+      <th>Total</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders.forEach(order => { %>
+      <tr>
+        <td><%= order._id %></td>
+        <td><%= order.createdAt.toDateString() %></td>
+        <td>₹<%= order.totalAmount %></td>
+        <td>
+          <%= order.status %>
+          <% if(order.status === "Pending") { %>
+            ⏳
+          <% } else if(order.status === "Shipped") { %>
+            🚚
+          <% } else if(order.status === "Delivered") { %>
+            ✅
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+</body>
+</html>
