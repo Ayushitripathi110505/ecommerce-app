@@ -1,13 +1,12 @@
 // db.js
+const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env") }); // ✅ load dotenv here
+
 const mongoose = require("mongoose");
 
-// Simply pass the URI without options
-mongoose.connect("mongodb://127.0.0.1:27017/e_commerce_app")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("MongoDB connection error:", err));
+// Debug: check if Mongo URI is loaded
+console.log("Mongo URI in db.js:", process.env.MONGODB_URI);
 
-mongoose.connection.once("open", () => {
-  console.log("Connected to DB:", mongoose.connection.name);
-});
-
-module.exports = mongoose;
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => console.log("MongoDB connected ✅"))
+.catch(err => console.log("MongoDB connection error ❌:", err));
