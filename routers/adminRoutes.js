@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const path = require("path");
+const mongoose = require('../db'); // Use the same connection
 const Product = require("../models/Product");
 const { isAuthenticated, isAdmin } = require("../authentication/authMiddleware");
 const multer = require("multer");

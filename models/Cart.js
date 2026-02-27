@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose")
 
 // 1️⃣ Define schema
 const cartSchema = new mongoose.Schema({

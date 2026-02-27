@@ -1,12 +1,21 @@
 // db.js
-const path = require("path");
-require("dotenv").config({ path: path.resolve(__dirname, ".env") }); // ✅ load dotenv here
+require('dotenv').config();
+const mongoose = require('mongoose');
 
-const mongoose = require("mongoose");
+const MONGO_URI = process.env.MONGO_URI;
 
-// Debug: check if Mongo URI is loaded
-console.log("Mongo URI in db.js:", process.env.MONGODB_URI);
+if (!MONGO_URI) throw new Error('MONGO_URI missing in .env');
 
-mongoose.connect(process.env.MONGODB_URI)
-.then(() => console.log("MongoDB connected ✅"))
-.catch(err => console.log("MongoDB connection error ❌:", err));
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI);
+    console.log('✅ Connected to MongoDB Atlas!');
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+module.exports = mongoose;

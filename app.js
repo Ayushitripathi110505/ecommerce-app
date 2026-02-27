@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load .env
+require('./db'); // <- Connects Mongoose before routes
 
 
 const express = require("express");
@@ -12,7 +14,7 @@ const cartRoutes = require("./routers/cartRoutes");
 const app = express();
 
 console.log("Starting app.js..."); 
-require("./db");
+
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
 

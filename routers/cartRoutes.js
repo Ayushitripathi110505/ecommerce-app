@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const mongoose = require('../db'); // Use the same connection
+
 const Cart = require("../models/Cart");
 const { isAuthenticated } = require("../authentication/authMiddleware");
 

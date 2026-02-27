@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const path = require("path");
+const mongoose = require('../db'); // Use the same connection
 const User = require("../models/User");
 
 // -----------------------------
