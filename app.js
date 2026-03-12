@@ -1,7 +1,7 @@
 require('dotenv').config(); // Load .env
 require('./db'); // <- Connects Mongoose before routes
 
-
+const Razorpay = require("razorpay");
 const express = require("express");
 const session = require("express-session");
 
@@ -15,6 +15,12 @@ const app = express();
 
 console.log("Starting app.js..."); 
 
+const razorpay = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+app.locals.razorpay = razorpay;
+app.locals.razorpayKey = process.env.RAZORPAY_KEY_ID;
 // Static folder
 app.use(express.static(path.join(__dirname, "public")));
 

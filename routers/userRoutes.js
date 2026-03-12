@@ -30,11 +30,19 @@ router.get("/dashboard", isAuthenticated, isUser, async(req, res) => {
 // Show user's cart
 router.get("/cart", isAuthenticated, async (req, res) => {
   try {
-    // Fetch the user's cart
-    const cart = await Cart.findOne({ user: req.session.user.id }).populate("items.product");
+    const cart = await Cart.findOne({ user: req.session.user.id })
+      .populate("items.product");
 
-    // Render the correct template: cart.ejs
-    res.render("cart", { cart }); 
+    let grandTotal = 0;
+
+    if (cart) {
+      cart.items.forEach(item => {
+        grandTotal += item.product.price * item.quantity;
+      });
+    }
+
+    res.render("cart", { cart, grandTotal });
+
   } catch (err) {
     console.log("Error fetching cart:", err);
     res.send("Error loading cart");
