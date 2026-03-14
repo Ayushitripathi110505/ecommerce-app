@@ -75,24 +75,46 @@
     body.dark-mode .subheading { color: #ffcc00; }
 
     /* Navigation */
-    .navBar {
+ .navBar{
     margin-top: 20px;
     display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+    gap: 25px;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
-    .navBar a {
-        font-size: 1.4rem;
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        padding: 8px 15px;
-        border-radius: 8px;
-        transition: background 0.3s, transform 0.2s;
-    }
-    .navBar a:hover { background-color: rgba(255, 255, 255, 0.2); transform: scale(1.05); }
 
+.navBar a {
+    font-size: 1.4rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.navBar a:hover { 
+    background-color: rgba(255, 255, 255, 0.2); 
+    transform: scale(1.05); 
+}
+
+.stats{
+    width:100%;              /* ⭐ this fixes the problem */
+    display:flex;
+    gap:20px;
+    justify-content:center;
+    margin-top:10px;
+}
+
+.stat{
+    background: rgba(255,255,255,0.2);
+    padding:6px 12px;
+    border-radius:8px;
+    font-size:0.95rem;
+    font-weight:600;
+    color:#ffd700;
+}
     /* Products grid */
     .content {
         display: grid;
@@ -148,11 +170,14 @@
         <a href="/admin/delete-products">Delete</a>
         <a href="/admin/edit-products">Edit</a> 
         <a href="/admin/orders">Update Status</a> 
-        <a href="/admin/stats"> View Stats</a>
-         <span class="stat">📦 Products: <%= totalProducts %></span>
+        
+        <div class="stats">
+            <span class="stat">📦 Products: <%= totalProducts %></span>
          <span class="stat">👤 Users: <%= totalUsers %></span>
          <span class="stat">🧾 Orders: <%= totalOrders %></span>
          <span class="stat">💰 Revenue: ₹ <%= totalRevenue %></span>
+        </div>
+         
     </div>
 </div>
 
