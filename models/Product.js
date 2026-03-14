@@ -28,6 +28,14 @@ const productSchema = new mongoose.Schema({
   image: {
     type: String,   // later: Cloudinary URL
   },
+  reviews: [
+ {
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  rating: Number,
+  comment: String,
+  createdAt: { type: Date, default: Date.now }
+  }
+],
 
   createdAt: {
     type: Date,

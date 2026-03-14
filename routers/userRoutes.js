@@ -11,7 +11,9 @@ router.get("/test-route", (req, res) => {
   console.log("🔥 User test route hit!");
   res.send("✅ User test route works!");
 });
+//-----------------------
 // User Dashboard
+//-----------------------
 router.get("/dashboard", isAuthenticated, isUser, async(req, res) => {
   try{
     const products =await Product.find();
@@ -162,21 +164,62 @@ router.get("/reset-products", async (req, res) => {
 
 
 router.get("/product/:id", async (req, res) => {
-  try {
-    console.log("Route hit");   // 👈 add this for testing
+    try {
 
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.params.id)
+      .populate("reviews.user", "name");
 
-    if (!product) {
-      return res.send("Product not found");
-    }
+    const hasOrdered = await Order.findOne({
+      user: req.session.user.id,
+      "items.product": req.params.id
+    });
 
-    res.render("product-details", { product });
-
+    res.render("product-details", {
+      product,
+      user: req.session.user,
+      canReview: hasOrdered
+    });
   } catch (err) {
     console.log(err);
     res.send("Error loading product");
   }
+});
+
+//----------------------------
+//------------review----------
+//------------------------------
+router.post("/review/:id", isAuthenticated, async (req, res) => {
+
+  try {
+
+    const { rating, comment } = req.body;
+
+    const product = await Product.findById(req.params.id);
+
+    const hasOrdered = await Order.findOne({
+      user: req.session.user.id,
+      "items.product": req.params.id
+    });
+
+    if (!hasOrdered) {
+      return res.send("You can review only purchased products");
+    }
+
+    product.reviews.push({
+      user: req.session.user.id,
+      rating,
+      comment
+    });
+
+    await product.save();
+
+    res.redirect("/user/product/" + req.params.id);
+
+  } catch (err) {
+    console.log(err);
+    res.send("Review failed");
+  }
+
 });
 
 ///------------------------orders-------------------------
