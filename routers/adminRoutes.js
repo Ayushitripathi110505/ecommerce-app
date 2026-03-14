@@ -10,11 +10,35 @@ const User = require("../models/User");
 //------------------------------
 /*----------dashboard----------*/
 //------------------------------
+router.get("/dashboard", isAdmin, async (req, res) => {
+
+  const totalProducts = await Product.countDocuments();
+  const totalUsers = await User.countDocuments();
+  const totalOrders = await Order.countDocuments();
+
+  const orders = await Order.find();
+  const products = await Product.find();
+  
+  const totalRevenue = orders.reduce((sum, order) => {
+  return sum + (order.totalAmount || 0);
+}, 0);
+
+  res.render("admin-dashboard", {
+     products,
+    totalProducts,
+    totalUsers,
+    totalOrders,
+    totalRevenue
+  });
+
+});
+
+/*
 router.get("/dashboard", isAuthenticated, isAdmin, async(req, res) => {
   const products = await Product.find();
   res.render("admin-dashboard", { user: req.session.user, products });
 });
-
+*/
 
 /**
  * ✅ Summary Table

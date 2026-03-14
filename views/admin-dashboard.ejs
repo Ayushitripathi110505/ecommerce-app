@@ -76,10 +76,12 @@
 
     /* Navigation */
     .navBar {
-        margin-top: 20px;
-        display: flex;
-        gap: 25px;
-    }
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
     .navBar a {
         font-size: 1.4rem;
         color: white;
@@ -146,6 +148,11 @@
         <a href="/admin/delete-products">Delete</a>
         <a href="/admin/edit-products">Edit</a> 
         <a href="/admin/orders">Update Status</a> 
+        <a href="/admin/stats"> View Stats</a>
+         <span class="stat">📦 Products: <%= totalProducts %></span>
+         <span class="stat">👤 Users: <%= totalUsers %></span>
+         <span class="stat">🧾 Orders: <%= totalOrders %></span>
+         <span class="stat">💰 Revenue: ₹ <%= totalRevenue %></span>
     </div>
 </div>
 
