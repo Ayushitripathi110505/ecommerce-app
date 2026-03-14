@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+        background-color: #f0f4f8;
+        color: #1a1a1a;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    body.dark-mode {
+        background-color: #0d1b2a;
+        color: #e0e0e0;
+    }
+
+    /* Header */
+    .header {
+        width: 100%;
+        min-height: 220px;
+        background: linear-gradient(135deg, #0d1b2a, #1b365d);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        position: relative;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    }
+
+    /* Top-right buttons */
+    .top-right {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .top-right button {
+        padding: 8px 15px;
+        font-size: 1em;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s, color 0.3s, transform 0.2s;
+    }
+
+    .top-right button:hover {
+        transform: scale(1.05);
+    }
+
+    .dark-mode-btn {
+        background-color: #f0f4f8;
+        color: #0d1b2a;
+    }
+
+    body.dark-mode .dark-mode-btn {
+        background-color: #1b365d;
+        color: #f0f4f8;
+    }
+
+    .logout-btn {
+        background-color: #ff4e4e;
+        color: #fff;
+    }
+
+    .logout-btn:hover {
+        background-color: #e03a3a;
+    }
+
+    /* Typewriter effect */
+    .typewriter h1 {
+        overflow: hidden;
+        border-right: .15em solid white;
+        white-space: nowrap;
+        animation: typing 3s steps(20, end), blink-caret 0.75s step-end infinite;
+        font-size: 2.5em;
+        margin: 0;
+        letter-spacing: 2px;
+    }
+
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+
+    @keyframes blink-caret {
+        50% { border-color: transparent }
+    }
+
+    h2 {
+        margin-top: 10px;
+        font-size: 1.5em;
+        font-weight: 500;
+        color: #ffd700;
+    }
+
+    body.dark-mode h2 {
+        color: #ffcc00;
+    }
+
+    /* Navigation under header */
+    .navBar {
+        margin-top: 20px;
+        display: flex;
+        gap: 25px;
+    }
+
+    .navBar a {
+        font-size: 1.2rem;
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 8px 15px;
+        border-radius: 8px;
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .navBar a:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    /* About content */
+    .about-content {
+        flex: 1;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    body.dark-mode .about-content {
+        background-color: #1b2a44;
+        color: #e0e0e0;
+    }
+
+    .about-content h3 {
+        margin-top: 0;
+        color: #0077b6;
+    }
+
+    body.dark-mode .about-content h3 {
+        color: #90e0ef;
+    }
+
+    .about-content p {
+        line-height: 1.6;
+    }
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="top-right">
+        <button class="dark-mode-btn" onclick="toggleDarkMode()">Toggle Mode</button>
+        <button class="logout-btn" onclick="location.href='/auth/logout'">Logout</button>
+    </div>
+
+    <div class="typewriter">
+        <h1>Welcome <%= user.name %></h1>
+        <h2>About Our Website</h2>
+    </div>
+
+    <div class="navBar">
+        <a href="/user/dashboard">Dashboard</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/about">About</a>
+        <a href="/user/update">Edit</a>
+        <a href="/user/user-orders">My Orders</a>
+    </div>
+</div>
+
+<div class="about-content">
+    <h3>Hello and Welcome!</h3>
+    <p>We are thrilled to have you on our platform. This website is designed to give you an easy and enjoyable shopping experience. Browse products, explore details, add to your cart, and enjoy a seamless journey as our valued user.</p>
+    <p>Our team is dedicated to providing quality products and excellent service. We continuously strive to improve the platform for you, making it faster, safer, and more user-friendly.</p>
+    <p>Thank you for being part of our community! We hope you have a fantastic time exploring our website.</p>
+</div>
+
+<script>
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+}
+</script>
+
+</body>
+</html>

@@ -18,7 +18,8 @@
       <tr style="border-bottom:1px solid #ccc; text-align:left;">
         <th>Order ID</th>
         <th>Date</th>
-        <th>Status</th>
+        <th>Payment</th>
+        <th>Order Status</th>
         <th>Total</th>
         <th>Items</th>
       </tr>
@@ -29,12 +30,17 @@
           <td><%= order._id %></td>
           <td><%= order.createdAt.toDateString() %></td>
           <td>
-            <%= order.status %>
-            <% if(order.status === "Pending") { %> ⏳ 
-            <% } else if(order.status === "Confirmed") { %> ✅ 
-            <% } else if(order.status === "Shipped") { %> 🚚 
-            <% } else if(order.status === "Delivered") { %> 🎉 
-            <% } else if(order.status === "Cancelled") { %> ❌ <% } %>
+             <%= order.paymentStatus %>
+             <% if(order.paymentStatus === "Paid") { %> ✅ <% } %>
+</td>
+
+          <td>
+              <%= order.status %>
+              <% if(order.status === "Pending") { %> ⏳ 
+              <% } else if(order.status === "Confirmed") { %> ✅ 
+              <% } else if(order.status === "Shipped") { %> 🚚 
+              <% } else if(order.status === "Delivered") { %> 🎉 
+              <% } else if(order.status === "Cancelled") { %> ❌ <% } %>
           </td>
           <td>₹<%= order.items.reduce((sum, i) => sum + i.price * i.quantity, 0) %></td>
           <td>

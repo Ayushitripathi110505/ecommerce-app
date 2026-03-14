@@ -27,6 +27,14 @@ router.get("/dashboard", isAuthenticated, isUser, async(req, res) => {
   }
 });
 
+router.get("/about", isAuthenticated, isUser, async (req, res) => {
+    try {
+         res.render("about", { user: req.session.user }); // Pass user object if needed
+    } catch (error) {
+        console.log("Error rendering About page:", error);
+        res.status(500).send("Something went wrong");
+    }
+});
 // Show user's cart
 router.get("/cart", isAuthenticated, async (req, res) => {
   try {
@@ -217,24 +225,22 @@ router.get("/product/:id", async (req, res) => {
 */
 router.post("/checkout", isAuthenticated, async (req, res) => {
   try {
-    console.log("Checkout started");
 
-    const userId = req.session.user.id; // <-- use this
+    const userId = req.session.user.id;
+
+    const { paymentId, orderId, address } = req.body;
 
     let cart = await Cart.findOne({ user: userId }).populate("items.product");
 
-    if (!cart) {
-      // Create empty cart if none exists
-      cart = await Cart.create({ user: userId, items: [] });
-    }
-
-    if (cart.items.length === 0) {
+    if (!cart || cart.items.length === 0) {
       return res.send("Cart is empty");
     }
 
     let totalAmount = 0;
+
     const orderItems = cart.items.map(item => {
       totalAmount += item.product.price * item.quantity;
+
       return {
         product: item.product._id,
         quantity: item.quantity,
@@ -246,22 +252,31 @@ router.post("/checkout", isAuthenticated, async (req, res) => {
       user: userId,
       items: orderItems,
       totalAmount,
-      address: req.body.address
+      address: address,
+
+      razorpayPaymentId: paymentId,
+      razorpayOrderId: orderId,
+
+      paymentStatus: "Paid"   // ⭐ important
     });
 
     // Reduce stock
     for (let item of cart.items) {
-      await Product.findByIdAndUpdate(item.product._id, { $inc: { stock: -item.quantity } });
+      await Product.findByIdAndUpdate(
+        item.product._id,
+        { $inc: { stock: -item.quantity } }
+      );
     }
 
     // Clear cart
     cart.items = [];
     await cart.save();
 
-    res.redirect("/user/orders");
+    res.json({ success: true });
+
   } catch (err) {
     console.log("Checkout error:", err);
-    res.send("Checkout failed");
+    res.status(500).send("Checkout failed");
   }
 });
 // Show user orders
@@ -402,6 +417,29 @@ router.post("/update-cart/:id", isAuthenticated, async (req, res) => {
     res.send("Failed to update cart");
   }
 });
+//SEARCH------------------------------
+router.get("/search", async (req, res) => {
+
+  try {
+
+    const keyword = req.query.q;
+
+    const products = await Product.find({
+      name: { $regex: keyword, $options: "i" }
+    });
+
+    res.render("user-dashboard", {
+      user: req.session.user,
+      products: products
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.send("Search failed");
+  }
+
+});
+//--------------------------------
 module.exports = router;
 
 /** 

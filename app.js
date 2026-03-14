@@ -1,5 +1,6 @@
 require('dotenv').config(); // Load .env
-require('./db'); // <- Connects Mongoose before routes
+const connectDB = require("./db");
+connectDB(); // <- Connects Mongoose before routes
 
 const Razorpay = require("razorpay");
 const express = require("express");
@@ -11,6 +12,7 @@ const authRoutes = require("./routers/authRoutes");
 const userRoutes = require("./routers/userRoutes");
 const adminRoutes = require("./routers/adminRoutes");
 const cartRoutes = require("./routers/cartRoutes");
+const paymentRoutes = require("./routers/payment");
 const app = express();
 
 console.log("Starting app.js..."); 
@@ -55,6 +57,7 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/", cartRoutes);
+app.use("/", paymentRoutes);
 
 // Logout
 app.get("/logout", (req, res) => {

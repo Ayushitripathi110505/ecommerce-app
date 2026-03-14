@@ -66,6 +66,7 @@ h3 { text-align: right; margin-top: 20px; }
     <th>Price</th>
     <th>Quantity</th>
     <th>Total</th>
+    <th>Action</th>
 </tr>
 
 <% cart.items.forEach(item => { %>
@@ -75,6 +76,12 @@ h3 { text-align: right; margin-top: 20px; }
     <td>₹<%= item.product.price %></td>
     <td><%= item.quantity %></td>
     <td>₹<%= item.product.price * item.quantity %></td>
+
+    <td>
+      <form action="/remove-from-cart/<%= item.product._id %>" method="POST">
+            <button class="btn">Remove</button>
+        </form>
+    </td>
 </tr>
 
 <% }) %>
@@ -135,24 +142,46 @@ payBtn.onclick = async function () {
         currency: "INR",
         order_id: order.id,
 
-        handler: async function (response) {
+       handler: async function (response) {
 
-            await fetch("/user/checkout", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    paymentId: response.razorpay_payment_id,
-                    orderId: response.razorpay_order_id,
-                    address: address
-                })
-            });
+    const verify = await fetch("/verify-payment", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_signature: response.razorpay_signature
+        })
+    });
 
-            alert("Payment Successful!");
+    const result = await verify.json();
 
-            window.location.href = "/orders";
-        }
+    if(result.success){
+
+        await fetch("/user/checkout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                paymentId: response.razorpay_payment_id,
+                orderId: response.razorpay_order_id,
+                address: address
+            })
+        });
+
+        alert("Payment Verified & Order Placed ✅");
+
+        window.location.href = "/orders";
+
+    } else {
+
+        alert("Payment Verification Failed ❌");
+
+    }
+}
 
     };
 

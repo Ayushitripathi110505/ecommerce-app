@@ -136,6 +136,39 @@
         background-color: rgba(255, 255, 255, 0.2);
         transform: scale(1.05);
     }
+    .search-form{
+        display:flex;
+        justify-content: center;
+        margin: 20px 0;
+    }
+    .search-form input{
+    width: 300px;
+    padding: 10px 15px;
+    border: 2px solid #ddd;
+    border-right: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+    font-size: 16px;
+}
+
+.search-form input:focus{
+    border-color: #ff4d4d;
+}
+
+.search-form button{
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 16px;
+    border-radius: 0 25px 25px 0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-form button:hover{
+    background-color: #e60023;
+}
 
     /* Main content */
     .content {
@@ -222,12 +255,20 @@
         <!-- Navigation under header -->
         <div class="navBar">
         <a href="/user/dashboard">Show</a>
-        <a href="/user/cart">Add</a>
-        <a href="/user/about">remove</a>
+        <a href="/user/cart">Cart</a>
+        <a href="/user/about">About</a>
         <a href="/user/update">Edit</a>
         <a href="/user/user-orders">My Orders</a>
+        </div>
+
+        <!-- Search Bar -->
+            <form action="/user/search" method="GET" class="search-form">
+                <input type="text" name="q" placeholder="Search products..." required>
+                <button type="submit">Search</button>
+            </form>
+
         
-</div>
+
     </div>
 
     <!-- Main content -->
